@@ -1,5 +1,5 @@
-import { TeamType } from '../models/interface/score.model.interface';
-
+import { BallStatus, EventTypes, TeamType } from '../enum/enum';
+import { Types } from 'mongoose';
 export interface TeamI {
   readonly teamId: string;
   readonly teamName: string;
@@ -51,4 +51,86 @@ export interface ReadPlayerScorecardI {
 export interface ReadBatsmanScorecardI {
   readonly playerName: string;
   readonly runs: number;
+  readonly isOnStrike: boolean;
+  readonly isOnField: boolean;
+}
+
+export interface UpdateTeamScorecard {
+  bowlersTeamName?: string;
+  batsmanTeamName?: string;
+  runs?: number;
+  wicket?: number;
+  balls?: number;
+  overs?: number;
+  wide?: number;
+  noBall?: number;
+  bye?: number;
+  legBye?: number;
+  overthrow?: number;
+  totalExtras?: number;
+  overCapacity?: number;
+}
+
+export interface UpdatePlayerScorecard {
+  playerId?: string;
+  runs?: number;
+  playerName?: string;
+  isOnStrike?: boolean;
+  isOnBowling?: boolean;
+  isOnField?: boolean;
+  extras?: number;
+  overs?: number;
+  isBatsman?: boolean;
+  isBowler?: boolean;
+  currentBall?: number;
+  maidens?: number;
+}
+
+export interface GetPlayerScorecardI {
+  _id: Types.ObjectId;
+  playerId: string;
+  runs: number;
+  playerName: string;
+  isOnStrike?: boolean;
+  isOnBowling?: boolean;
+  isOnField?: boolean;
+  extras?: number;
+  overs?: number;
+  isBatsman?: boolean;
+  isBowler?: boolean;
+  currentBall?: number;
+  maidens?: number;
+}
+
+export interface GetTeamScorecardI {
+  _id: Types.ObjectId;
+  bowlersTeamName: string;
+  batsmanTeamName: string;
+  runs: number;
+  wicket: number;
+  balls: number;
+  overs: number;
+  wide: number;
+  noBall: number;
+  bye: number;
+  legBye: number;
+  overthrow: number;
+  totalExtras: number;
+  overCapacity: number;
+}
+
+export interface AddScoreEventI {
+  event: EventTypes;
+  runValue: number;
+  ballStatus: BallStatus;
+  isWicket: boolean;
+  newBall: boolean;
+  batsmanId: string;
+  bowlerId: string;
+}
+
+export interface GetTeamI {
+  _id?: Types.ObjectId;
+  teamName: string;
+  teamType: TeamType;
 }

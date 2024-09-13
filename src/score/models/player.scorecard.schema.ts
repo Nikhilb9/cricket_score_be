@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { PlayerScorecardModelI } from './interface/score.model.interface';
 
-import { HydratedDocument } from 'mongoose';
+import { Document } from 'mongoose';
 
-export type PlayerScorecardDocument = HydratedDocument<PlayerScorecard>;
+export type PlayerScorecardDocument = PlayerScorecard & Document;
 
 @Schema({ timestamps: true })
 export class PlayerScorecard implements PlayerScorecardModelI {
@@ -36,6 +36,12 @@ export class PlayerScorecard implements PlayerScorecardModelI {
 
   @Prop({ required: false, default: false })
   isBowler: boolean;
+
+  @Prop({ required: false, default: false })
+  isOnStrike: boolean;
+
+  @Prop({ required: false, default: false })
+  isOnBowling: boolean;
 }
 
 export const PlayerScorecardSchema =

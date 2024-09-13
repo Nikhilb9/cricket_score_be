@@ -1,9 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { TeamScorecardModelI } from './interface/score.model.interface';
+import { Document } from 'mongoose';
 
-import { HydratedDocument } from 'mongoose';
-
-export type TeamScorecardDocument = HydratedDocument<TeamScorecard>;
+export type TeamScorecardDocument = TeamScorecard & Document;
 
 @Schema({ timestamps: true })
 export class TeamScorecard implements TeamScorecardModelI {

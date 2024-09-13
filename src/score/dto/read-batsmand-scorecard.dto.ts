@@ -7,4 +7,10 @@ export class ReadBatsmanScorecardDto implements ReadBatsmanScorecardI {
 
   @ApiProperty({ description: 'Batsman runs' })
   runs: number;
+
+  @ApiProperty({ description: 'Is on strike' })
+  isOnStrike: boolean;
+
+  @ApiProperty({ description: 'Is on field' })
+  isOnField: boolean;
 }

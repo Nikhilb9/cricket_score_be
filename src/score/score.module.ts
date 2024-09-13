@@ -10,17 +10,11 @@ import {
   PlayerScorecardSchema,
   TeamScorecard,
   TeamScorecardSchema,
-  PlayerSchema,
-  Player,
-  TeamSchema,
-  Team,
 } from './models';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: Team.name, schema: TeamSchema },
-      { name: Player.name, schema: PlayerSchema },
       { name: PlayerScorecard.name, schema: PlayerScorecardSchema },
       { name: TeamScorecard.name, schema: TeamScorecardSchema },
       { name: Commentary.name, schema: CommentarySchema },

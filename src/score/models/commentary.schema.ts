@@ -1,20 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import {
-  CommentaryModelI,
-  CommentType,
-} from './interface/score.model.interface';
+import { CommentaryModelI } from './interface/score.model.interface';
 
-import { HydratedDocument } from 'mongoose';
+import { Document } from 'mongoose';
 
-export type CommentaryDocument = HydratedDocument<Commentary>;
+export type CommentaryDocument = Commentary & Document;
 
 @Schema({ timestamps: true })
 export class Commentary implements CommentaryModelI {
   @Prop({ required: true })
   comment: string;
-
-  @Prop({ required: true, type: () => CommentType })
-  commentType: CommentType;
 
   @Prop({ required: true, default: 0 })
   run: number;

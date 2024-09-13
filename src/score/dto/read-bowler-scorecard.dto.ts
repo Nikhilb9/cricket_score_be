@@ -13,4 +13,7 @@ export class ReadBowlerScorecardDto implements ReadBowlerScorecardI {
 
   @ApiProperty({ description: 'Bowler overs' })
   overs: number;
+
+  @ApiProperty({ description: 'Bowler is on bowling' })
+  isOnBowling: boolean;
 }

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { TeamI } from '../interface/internal.interface';
 import { PlayerDto } from './read-player.dto';
-import { TeamType } from '../models/interface/score.model.interface';
+import { TeamType } from '../enum/enum';
 
 export class TeamDto implements TeamI {
   @ApiProperty({ description: 'Team Id' })
