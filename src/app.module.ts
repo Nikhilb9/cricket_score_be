@@ -16,5 +16,6 @@ import { ScoreModule } from './score/score.module';
     }),
     ScoreModule,
   ],
+  providers: [],
 })
 export class AppModule {}
