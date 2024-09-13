@@ -10,9 +10,9 @@ export class TeamDto implements TeamI {
   @ApiProperty({ description: 'Team Name' })
   teamName: string;
 
-  @ApiProperty({ description: 'Team Players' })
+  @ApiProperty({ description: 'Team Players', type: () => [PlayerDto] })
   players: PlayerDto[];
 
-  @ApiProperty({ description: 'Team Type' })
+  @ApiProperty({ description: 'Team Type', enum: TeamType })
   teamType: TeamType;
 }

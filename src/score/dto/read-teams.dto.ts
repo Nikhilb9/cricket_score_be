@@ -3,6 +3,6 @@ import { TeamsI } from '../interface/internal.interface';
 import { TeamDto } from './read-team.dto';
 
 export class TeamsDto implements TeamsI {
-  @ApiProperty({ description: 'Teams' })
+  @ApiProperty({ description: 'Teams', type: () => [TeamDto] })
   teams: TeamDto[];
 }
