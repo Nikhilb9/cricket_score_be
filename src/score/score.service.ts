@@ -4,6 +4,11 @@ import { Player } from './models/player.schema';
 import { TeamType } from './models/interface/score.model.interface';
 import { Team } from './models/team.schema';
 import { TeamsDto } from './dto/read-teams.dto';
+import { ReadTeamScorecardDto } from './dto/read-team-scorecard.dto';
+import { Commentary, PlayerScorecard, TeamScorecard } from './models';
+import { ReadBatsmanScorecardDto } from './dto/read-batsmand-scorecard.dto';
+import { ReadBowlerScorecardDto } from './dto/read-bowler-scorecard.dto';
+import { ReadCommentaryI } from './interface/internal.interface';
 
 @Injectable()
 export class ScoreService {
@@ -45,12 +50,51 @@ export class ScoreService {
         { playerName: 'Agha Salman', teamId: Pakistan._id.toString() },
       ];
 
-      const playersRes: Player[] = await this.createPlayers(players);
-      return this.dataTransform([India, Pakistan], playersRes);
+      const [playerRes, ,] = await Promise.all([
+        this.createPlayers(players),
+        this.scoreRepositoryService.createMatch(
+          Pakistan.teamName,
+          India.teamName,
+        ),
+      ]);
+
+      return this.teamPlayerDataTransform([India, Pakistan], playerRes);
     } else {
       const players: Player[] = await this.scoreRepositoryService.getPlayers();
-      return this.dataTransform(teams, players);
+      return this.teamPlayerDataTransform(teams, players);
     }
+  }
+
+  async getScore(): Promise<ReadTeamScorecardDto> {
+    const [commentaries, batsmanScorecard, bowlerScorecard, teamScorecard] =
+      (await Promise.all([
+        this.scoreRepositoryService.getCommentary(),
+        this.scoreRepositoryService.getPlayerScoreCard(true),
+        this.scoreRepositoryService.getPlayerScoreCard(false),
+        this.scoreRepositoryService.getTeamScoreCard(),
+      ])) as [
+        Commentary[],
+        PlayerScorecard[],
+        PlayerScorecard[],
+        TeamScorecard[],
+      ];
+
+    return this.teamScorecardDataTransform(
+      teamScorecard[0],
+      commentaries,
+      batsmanScorecard,
+      bowlerScorecard,
+    );
+  }
+
+  async resetMatch(): Promise<void> {
+    await Promise.all([
+      this.scoreRepositoryService.deleteAllCommentaries(),
+      this.scoreRepositoryService.deleteAllMatch(),
+      this.scoreRepositoryService.deleteAllPlayer(),
+      this.scoreRepositoryService.deleteAllPlayerScorecard(),
+      this.scoreRepositoryService.deleteAllTeam(),
+    ]);
   }
 
   private async createTeam(team: Team): Promise<Team> {
@@ -61,9 +105,11 @@ export class ScoreService {
     return await this.scoreRepositoryService.createPlayers(players);
   }
 
-  private dataTransform(teamData: Team[], playerData: Player[]): TeamsDto {
+  private teamPlayerDataTransform(
+    teamData: Team[],
+    playerData: Player[],
+  ): TeamsDto {
     const res: TeamsDto = { teams: [] };
-    console.log(':::::::::', teamData);
     for (let i = 0; i < teamData.length; i++) {
       const players = [];
       for (let j = 0; j < playerData.length; j++) {
@@ -81,6 +127,73 @@ export class ScoreService {
         players: players,
       });
     }
+    return res;
+  }
+
+  private teamScorecardDataTransform(
+    data: TeamScorecard,
+    commentaries: Commentary[],
+    batsmanScorecard: PlayerScorecard[],
+    bowlerScorecard: PlayerScorecard[],
+  ): ReadTeamScorecardDto {
+    const res = {
+      bowlersTeamName: data.bowlersTeamName,
+      batsmanTeamName: data.batsmanTeamName,
+      runs: data.runs,
+      wickets: data.wicket,
+      balls: data.balls,
+      overs: data.overs,
+      wide: data.wide,
+      noBall: data.noBall,
+      legBye: data.legBye,
+      bye: data.bye,
+      extras: data.totalExtras,
+      overthrow: data.overthrow,
+      commentaries: this.commentaryDataTransform(commentaries),
+      playerScorecard: {
+        batsman: this.batsmanDataTransform(batsmanScorecard),
+        bowler: this.bowlerDataTransform(bowlerScorecard),
+      },
+    };
+
+    return res;
+  }
+
+  private commentaryDataTransform(data: Commentary[]): ReadCommentaryI {
+    const res: string[] = [];
+    data.forEach((el) => {
+      res.push(el.comment);
+    });
+    return { comment: res };
+  }
+
+  private bowlerDataTransform(
+    data: PlayerScorecard[],
+  ): ReadBowlerScorecardDto[] {
+    const res: ReadBowlerScorecardDto[] = [];
+    data.forEach((element) => {
+      res.push({
+        playerName: element.playerName,
+        runs: element.runs,
+        maidens: element.maidens,
+        overs: element.overs,
+      });
+    });
+
+    return res;
+  }
+
+  private batsmanDataTransform(
+    data: PlayerScorecard[],
+  ): ReadBatsmanScorecardDto[] {
+    const res: ReadBatsmanScorecardDto[] = [];
+    data.forEach((element) => {
+      res.push({
+        playerName: element.playerName,
+        runs: element.runs,
+      });
+    });
+
     return res;
   }
 }

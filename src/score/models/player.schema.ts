@@ -6,6 +6,7 @@ import { HydratedDocument } from 'mongoose';
 export type PlayerDocument = HydratedDocument<Player>;
 
 @Schema({ timestamps: true })
+@Schema({})
 export class Player implements PlayerModelI {
   @Prop({ required: true })
   playerName: string;
