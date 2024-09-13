@@ -1,1 +1,1 @@
-# cricket_score_admin
+# cricket_score_be
