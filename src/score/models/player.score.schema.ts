@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { PlayerScorecardModelI } from './interface/score.model.interface';
+import { PlayerScoreModelI as PlayerScoreModelI } from './interface/score.model.interface';
 
 import { Document } from 'mongoose';
 
-export type PlayerScorecardDocument = PlayerScorecard & Document;
+export type PlayerScoreDocument = PlayerScore & Document;
 
 @Schema({ timestamps: true })
-export class PlayerScorecard implements PlayerScorecardModelI {
+export class PlayerScore implements PlayerScoreModelI {
   @Prop({ required: true })
   playerId: string;
 
@@ -42,7 +42,9 @@ export class PlayerScorecard implements PlayerScorecardModelI {
 
   @Prop({ required: false, default: false })
   isOnBowling: boolean;
+
+  @Prop({ required: false, default: false })
+  isOut: boolean;
 }
 
-export const PlayerScorecardSchema =
-  SchemaFactory.createForClass(PlayerScorecard);
+export const PlayerScoreSchema = SchemaFactory.createForClass(PlayerScore);

@@ -16,7 +16,7 @@ export interface TeamsI {
   readonly teams: TeamI[];
 }
 
-export interface ReadTeamScorecardI {
+export interface ReadTeamScoreI {
   readonly bowlersTeamName: string;
   readonly batsmanTeamName: string;
   readonly runs: number;
@@ -30,32 +30,34 @@ export interface ReadTeamScorecardI {
   readonly extras: number;
   readonly overthrow: number;
   readonly commentaries: ReadCommentaryI;
-  readonly playerScorecard: ReadPlayerScorecardI;
+  readonly playerScore: ReadPlayerScoreI;
 }
 
 export interface ReadCommentaryI {
   readonly comment: string[];
 }
 
-export interface ReadBowlerScorecardI {
+export interface ReadBowlerScoreI {
   readonly playerName: string;
   readonly runs: number;
   readonly maidens: number;
   readonly overs: number;
+  readonly playerId: string;
 }
 
-export interface ReadPlayerScorecardI {
-  readonly batsman: ReadBatsmanScorecardI[];
-  readonly bowler: ReadBowlerScorecardI[];
+export interface ReadPlayerScoreI {
+  readonly batsman: ReadBatsmanScoreI[];
+  readonly bowler: ReadBowlerScoreI[];
 }
-export interface ReadBatsmanScorecardI {
+export interface ReadBatsmanScoreI {
   readonly playerName: string;
   readonly runs: number;
   readonly isOnStrike: boolean;
   readonly isOnField: boolean;
+  readonly playerId: string;
 }
 
-export interface UpdateTeamScorecard {
+export interface UpdateTeamScore {
   bowlersTeamName?: string;
   batsmanTeamName?: string;
   runs?: number;
@@ -71,7 +73,7 @@ export interface UpdateTeamScorecard {
   overCapacity?: number;
 }
 
-export interface UpdatePlayerScorecard {
+export interface UpdatePlayerScore {
   playerId?: string;
   runs?: number;
   playerName?: string;
@@ -84,9 +86,10 @@ export interface UpdatePlayerScorecard {
   isBowler?: boolean;
   currentBall?: number;
   maidens?: number;
+  isOut?: boolean;
 }
 
-export interface GetPlayerScorecardI {
+export interface GetPlayerScoreI {
   _id: Types.ObjectId;
   playerId: string;
   runs: number;
@@ -100,9 +103,10 @@ export interface GetPlayerScorecardI {
   isBowler?: boolean;
   currentBall?: number;
   maidens?: number;
+  isOut?: boolean;
 }
 
-export interface GetTeamScorecardI {
+export interface GetTeamScoreI {
   _id: Types.ObjectId;
   bowlersTeamName: string;
   batsmanTeamName: string;
@@ -133,4 +137,34 @@ export interface GetTeamI {
   _id?: Types.ObjectId;
   teamName: string;
   teamType: TeamType;
+}
+
+export interface Extras {
+  batsman: BatsmanBowler;
+  bowler: BatsmanBowler;
+  team: Team;
+  extras: ExtrasRuns;
+}
+
+export interface BatsmanBowler {
+  runs: number;
+  balls: number;
+}
+
+export interface ExtrasRuns {
+  noBall: number;
+  wide: number;
+  bye: number;
+  legBye: number;
+  overthrow: number;
+}
+
+export interface Team {
+  totalRuns: number;
+  balls: number;
+}
+
+export interface GetCommentaryI {
+  comment: string;
+  createdAt: string;
 }

@@ -3,6 +3,7 @@ import {
   IsBoolean,
   IsEnum,
   IsInt,
+  IsMongoId,
   IsNotEmpty,
   IsOptional,
 } from 'class-validator';
@@ -55,7 +56,7 @@ export class AddScoreEventDto implements AddScoreEventI {
     description: 'ID of the batsman',
     required: true,
   })
-  @IsInt()
+  @IsMongoId()
   @IsNotEmpty()
   batsmanId: string;
 
@@ -63,7 +64,7 @@ export class AddScoreEventDto implements AddScoreEventI {
     description: 'ID of the bowler',
     required: true,
   })
-  @IsInt()
+  @IsMongoId()
   @IsNotEmpty()
   bowlerId: string;
 }

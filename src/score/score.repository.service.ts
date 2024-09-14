@@ -5,95 +5,107 @@ import { Model, Types } from 'mongoose';
 import {
   Commentary,
   CommentaryDocument,
-  PlayerScorecard,
-  PlayerScorecardDocument,
-  TeamScorecard,
-  TeamScorecardDocument,
+  PlayerScore as PlayerScore,
+  PlayerScoreDocument as PlayerScoreDocument,
+  TeamScore as TeamScore,
+  TeamScoreDocument as TeamScoreDocument,
 } from './models';
 import {
-  GetPlayerScorecardI,
-  GetTeamScorecardI,
-  UpdatePlayerScorecard,
-  UpdateTeamScorecard,
+  GetCommentaryI,
+  GetPlayerScoreI,
+  GetTeamScoreI,
+  UpdatePlayerScore,
+  UpdateTeamScore,
 } from './interface/internal.interface';
+import { PlayerScoreModelI } from './models/interface/score.model.interface';
 
 @Injectable()
 export class ScoreRepositoryService {
   constructor(
     @InjectModel(Commentary.name)
     private commentaryModel: Model<CommentaryDocument>,
-    @InjectModel(PlayerScorecard.name)
-    private playerScorecardModel: Model<PlayerScorecardDocument>,
-
-    @InjectModel(TeamScorecard.name)
-    private teamScorecardModel: Model<TeamScorecardDocument>,
+    @InjectModel(PlayerScore.name)
+    private playerScoreModel: Model<PlayerScoreDocument>,
+    @InjectModel(TeamScore.name)
+    private teamScoreModel: Model<TeamScoreDocument>,
   ) {}
 
-  async getCommentary(): Promise<Commentary[]> {
-    return await this.commentaryModel
-      .find<Commentary>()
-      .sort({ createdAt: 'asc' });
-  }
-  async getPlayerScoreCard(isBatsman: boolean): Promise<PlayerScorecard[]> {
-    return await this.playerScorecardModel
-      .find<PlayerScorecard>({
-        isBatsman: isBatsman,
-      })
-      .sort({ createdAt: 'asc' });
-  }
-  async getTeamScoreCard(): Promise<GetTeamScorecardI[]> {
-    return await this.teamScorecardModel
-      .find<GetTeamScorecardI>()
-      .sort({ createdAt: 'asc' })
-      .limit(1);
-  }
   async createMatch(
     bowlersTeamName: string,
     batsmanTeamName: string,
-  ): Promise<TeamScorecard> {
-    return await this.teamScorecardModel.create({
+  ): Promise<TeamScore> {
+    return await this.teamScoreModel.create({
       bowlersTeamName: bowlersTeamName,
       batsmanTeamName: batsmanTeamName,
     });
   }
+  async createAllPlayerScore(data: PlayerScoreModelI[]): Promise<void> {
+    await this.playerScoreModel.insertMany(data);
+  }
+  async getCommentary(): Promise<GetCommentaryI[]> {
+    return await this.commentaryModel
+      .find<GetCommentaryI>()
+      .sort({ createdAt: 'asc' });
+  }
+  async getPlayerScore(isBatsman: boolean): Promise<GetPlayerScoreI[]> {
+    return await this.playerScoreModel
+      .find<GetPlayerScoreI>({
+        isBatsman: isBatsman,
+      })
+      .sort({ createdAt: 'asc' });
+  }
+  async getTeamScore(): Promise<GetTeamScoreI> {
+    return await this.teamScoreModel.findOne<GetTeamScoreI>({
+      batsmanTeamName: 'India',
+    });
+  }
+
+  async getPlayerScoreByPlayerId(playerId: string): Promise<GetPlayerScoreI[]> {
+    return await this.playerScoreModel.find({ playerId: playerId });
+  }
+
+  async getNonStrikerBatsman() {
+    return await this.playerScoreModel.find({
+      isBatsman: true,
+      isOnField: true,
+      isOnStrike: false,
+    });
+  }
 
   async deleteAllMatch(): Promise<void> {
-    await this.teamScorecardModel.deleteMany();
+    await this.teamScoreModel.deleteMany();
   }
   async deleteAllCommentaries(): Promise<void> {
     await this.commentaryModel.deleteMany();
   }
 
-  async deleteAllPlayerScorecard(): Promise<void> {
-    await this.playerScorecardModel.deleteMany();
+  async deleteAllPlayerScore(): Promise<void> {
+    await this.playerScoreModel.deleteMany();
   }
 
   async createCommentary(comment: string, run: number): Promise<void> {
     await this.commentaryModel.create({ comment, run });
   }
-  async updatePlayerScoreCard(
+  async updatePlayerScore(
     id: string,
-    data: UpdatePlayerScorecard,
-  ): Promise<PlayerScorecard> {
-    return await this.playerScorecardModel.findOneAndUpdate(
+    data: UpdatePlayerScore,
+  ): Promise<PlayerScore> {
+    return await this.playerScoreModel.findOneAndUpdate(
       {
         _id: new Types.ObjectId(id),
       },
       data,
     );
   }
-  async updateTeamScorecard(
-    data: UpdateTeamScorecard,
-    id: string,
-  ): Promise<TeamScorecard> {
-    return await this.teamScorecardModel.findOneAndUpdate(
+  async updateTeamScore(data: UpdateTeamScore, id: string): Promise<TeamScore> {
+    return await this.teamScoreModel.findOneAndUpdate(
       { _id: new Types.ObjectId(id) },
       data,
     );
   }
-  async getPlayerScoreCardById(id: string): Promise<GetPlayerScorecardI[]> {
-    return await this.playerScorecardModel
-      .find<GetPlayerScorecardI>({ playerId: id })
+  async getPlayerScoreById(id: string): Promise<GetPlayerScoreI[]> {
+    return await this.playerScoreModel
+      .find<GetPlayerScoreI>({ playerId: id })
       .sort({ createdAt: 'asc' })
       .limit(1);
   }

@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ReadTeamScorecardI } from '../interface/internal.interface';
+import { ReadTeamScoreI } from '../interface/internal.interface';
 import { ReadCommentaryDto } from './read-commentary.dto';
-import { ReadPlayerScorecardDto } from './read-player-scorecard.dto';
+import { ReadPlayerScoreDto } from './read-player-score.dto';
 
-export class ReadTeamScorecardDto implements ReadTeamScorecardI {
+export class ReadTeamScoreDto implements ReadTeamScoreI {
   @ApiProperty({ description: 'Bowler Team name' })
   bowlersTeamName: string;
 
@@ -47,8 +47,8 @@ export class ReadTeamScorecardDto implements ReadTeamScorecardI {
   commentaries: ReadCommentaryDto;
 
   @ApiProperty({
-    description: 'Team players score card bowler and batsman',
-    type: () => ReadPlayerScorecardDto,
+    description: 'Team players score  bowler and batsman',
+    type: () => ReadPlayerScoreDto,
   })
-  playerScorecard: ReadPlayerScorecardDto;
+  playerScore: ReadPlayerScoreDto;
 }

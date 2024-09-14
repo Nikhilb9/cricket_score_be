@@ -3,7 +3,7 @@ export interface CommentaryModelI {
   run: number;
 }
 
-export interface PlayerScorecardModelI {
+export interface PlayerScoreModelI {
   playerId: string;
   runs: number;
   playerName: string;
@@ -16,9 +16,10 @@ export interface PlayerScorecardModelI {
   isBowler?: boolean;
   currentBall?: number;
   maidens?: number;
+  isOut?: boolean;
 }
 
-export interface TeamScorecardModelI {
+export interface TeamScoreModelI {
   bowlersTeamName: string;
   batsmanTeamName: string;
   runs: number;

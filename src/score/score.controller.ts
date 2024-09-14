@@ -2,11 +2,11 @@ import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
 import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ScoreService } from './score.service';
 import { TeamsDto } from './dto';
-import { ReadTeamScorecardDto } from './dto/read-team-scorecard.dto';
+import { ReadTeamScoreDto } from './dto/read-team-score.dto';
 import { AddScoreEventDto } from './dto/add-score-event.dto';
 
-@ApiTags('Score')
-@Controller('scoring')
+@ApiTags('Cricket Match')
+@Controller('cricket/match')
 export class ScoreController {
   constructor(private readonly scoreService: ScoreService) {}
 
@@ -15,7 +15,7 @@ export class ScoreController {
     description: 'Teams data',
     type: () => TeamsDto,
   })
-  @Get('team')
+  @Get('teams')
   async getTeams(): Promise<TeamsDto> {
     return this.scoreService.getTeams();
   }
@@ -28,16 +28,16 @@ export class ScoreController {
 
   @ApiOkResponse({
     status: 200,
-    description: 'Team scorecard',
-    type: () => ReadTeamScorecardDto,
+    description: 'Team score',
+    type: () => ReadTeamScoreDto,
   })
-  @Get()
-  async getScorecard(): Promise<ReadTeamScorecardDto> {
+  @Get('score')
+  async getScore(): Promise<ReadTeamScoreDto> {
     return this.scoreService.getScore();
   }
 
-  @ApiBody({ type: () => AddScoreEventDto })
-  @Post()
+  @ApiBody({ type: AddScoreEventDto })
+  @Post('score')
   async addScore(@Body() data: AddScoreEventDto): Promise<{ message: string }> {
     return await this.scoreService.addScore(data);
   }

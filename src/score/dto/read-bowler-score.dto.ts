@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ReadBowlerScorecardI } from '../interface/internal.interface';
+import { ReadBowlerScoreI } from '../interface/internal.interface';
 
-export class ReadBowlerScorecardDto implements ReadBowlerScorecardI {
+export class ReadBowlerScoreDto implements ReadBowlerScoreI {
   @ApiProperty({ description: 'Bowler name' })
   playerName: string;
 
@@ -16,4 +16,7 @@ export class ReadBowlerScorecardDto implements ReadBowlerScorecardI {
 
   @ApiProperty({ description: 'Bowler is on bowling' })
   isOnBowling: boolean;
+
+  @ApiProperty({ description: 'Player id' })
+  playerId: string;
 }

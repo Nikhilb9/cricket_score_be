@@ -6,17 +6,17 @@ import { ScoreRepositoryService } from './score.repository.service';
 import {
   Commentary,
   CommentarySchema,
-  PlayerScorecard,
-  PlayerScorecardSchema,
-  TeamScorecard,
-  TeamScorecardSchema,
+  PlayerScore,
+  PlayerScoreSchema,
+  TeamScore,
+  TeamScoreSchema,
 } from './models';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: PlayerScorecard.name, schema: PlayerScorecardSchema },
-      { name: TeamScorecard.name, schema: TeamScorecardSchema },
+      { name: PlayerScore.name, schema: PlayerScoreSchema },
+      { name: TeamScore.name, schema: TeamScoreSchema },
       { name: Commentary.name, schema: CommentarySchema },
     ]),
   ],

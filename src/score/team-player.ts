@@ -1,6 +1,6 @@
 import { TeamType } from './enum/enum';
 
-export const teamPlayers = {
+export const teamPlayers = Object.freeze({
   teams: [
     {
       teamName: 'India',
@@ -105,4 +105,4 @@ export const teamPlayers = {
       ],
     },
   ],
-};
+});

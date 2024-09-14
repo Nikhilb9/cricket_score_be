@@ -1,3 +1,3 @@
 export * from './commentary.schema';
-export * from './player.scorecard.schema';
-export * from './team.scorecard.schema';
+export * from './player.score.schema';
+export * from './team.score.schema';

@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { TeamScorecardModelI } from './interface/score.model.interface';
+import { TeamScoreModelI } from './interface/score.model.interface';
 import { Document } from 'mongoose';
 
-export type TeamScorecardDocument = TeamScorecard & Document;
+export type TeamScoreDocument = TeamScore & Document;
 
 @Schema({ timestamps: true })
-export class TeamScorecard implements TeamScorecardModelI {
+export class TeamScore implements TeamScoreModelI {
   @Prop({ required: true })
   bowlersTeamName: string;
 
@@ -46,4 +46,4 @@ export class TeamScorecard implements TeamScorecardModelI {
   overCapacity: number;
 }
 
-export const TeamScorecardSchema = SchemaFactory.createForClass(TeamScorecard);
+export const TeamScoreSchema = SchemaFactory.createForClass(TeamScore);
