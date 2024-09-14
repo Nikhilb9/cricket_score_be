@@ -10,13 +10,13 @@ import {
   TeamScore as TeamScore,
   TeamScoreDocument as TeamScoreDocument,
 } from './models';
+import { GetCommentaryI } from './interface/internal.interface';
 import {
-  GetCommentaryI,
   GetPlayerScoreI,
   GetTeamScoreI,
   UpdatePlayerScore,
   UpdateTeamScore,
-} from './interface/internal.interface';
+} from './models/interface/score.model.interface';
 import { PlayerScoreModelI } from './models/interface/score.model.interface';
 
 @Injectable()
