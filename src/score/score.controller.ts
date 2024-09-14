@@ -1,24 +1,12 @@
 import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
 import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ScoreService } from './score.service';
-import { TeamsDto } from './dto';
-import { ReadTeamScoreDto } from './dto/read-team-score.dto';
-import { AddScoreEventDto } from './dto/add-score-event.dto';
+import { ReadTeamScoreDto, AddScoreEventDto } from './dto';
 
 @ApiTags('Cricket Match')
 @Controller('cricket/match')
 export class ScoreController {
   constructor(private readonly scoreService: ScoreService) {}
-
-  @ApiOkResponse({
-    status: 200,
-    description: 'Teams data',
-    type: () => TeamsDto,
-  })
-  @Get('teams')
-  async getTeams(): Promise<TeamsDto> {
-    return this.scoreService.getTeams();
-  }
 
   @ApiOkResponse({ status: 200, description: 'Reset match' })
   @Delete('reset')

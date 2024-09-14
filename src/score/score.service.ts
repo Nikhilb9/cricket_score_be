@@ -1,22 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { ScoreRepositoryService } from './score.repository.service';
-import { TeamsDto } from './dto/read-teams.dto';
-import { ReadTeamScoreDto } from './dto/read-team-score.dto';
 import {
   PlayerScore,
   PlayerScoreDocument,
   TeamScore,
   TeamScoreDocument,
 } from './models';
-import { ReadBatsmanScoreDto } from './dto/read-batsmand-score.dto';
-import { ReadBowlerScoreDto } from './dto/read-bowler-score.dto';
+import {
+  ReadBatsmanScoreDto,
+  ReadBowlerScoreDto,
+  AddScoreEventDto,
+  ReadTeamScoreDto,
+} from './dto';
 import {
   Extras,
   GetCommentaryI,
   ReadCommentaryI,
 } from './interface/internal.interface';
 import { BallStatus, EventTypes } from './enum/enum';
-import { AddScoreEventDto } from './dto/add-score-event.dto';
 import { teamPlayers } from './team-player';
 import { PlayerScoreModelI } from './models/interface/score.model.interface';
 
@@ -27,10 +28,6 @@ export class ScoreService {
   constructor(
     private readonly scoreRepositoryService: ScoreRepositoryService,
   ) {}
-
-  async getTeams(): Promise<TeamsDto> {
-    return { teams: teamPlayers.teams };
-  }
 
   async getScore(): Promise<ReadTeamScoreDto> {
     const [commentaries, batsmanScore, bowlerScore, teamScore] =
@@ -242,6 +239,7 @@ export class ScoreService {
       batsmanScore[0]._id.toString(),
       { isOut: true, isOnField: false, isOnStrike: false },
     );
+
     await this.scoreRepositoryService.updatePlayerScore(
       bowlerScore[0]._id.toString(),
       { currentBall: bowlerScore[0].currentBall + 1 },
@@ -285,7 +283,7 @@ export class ScoreService {
     );
 
     await this.scoreRepositoryService.createCommentary(
-      `Bowler change ${bowlerScore[0].playerName} - ${newBowler[0].playerName}`,
+      `Bowler change ${bowlerScore[0].playerName} - ${newBowler.playerName}`,
       0,
     );
   }

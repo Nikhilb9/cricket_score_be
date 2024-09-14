@@ -1,92 +1,60 @@
 import { BallStatus, EventTypes, TeamType } from '../enum/enum';
 import { Types } from 'mongoose';
 export interface TeamI {
-  readonly teamId: string;
-  readonly teamName: string;
-  readonly players: PlayerI[];
-  readonly teamType: TeamType;
+  teamId: string;
+  teamName: string;
+  players: PlayerI[];
+  teamType: TeamType;
 }
 
 export interface PlayerI {
-  readonly playerId: string;
-  readonly playerName: string;
+  playerId: string;
+  playerName: string;
 }
 
 export interface TeamsI {
-  readonly teams: TeamI[];
+  teams: TeamI[];
 }
 
 export interface ReadTeamScoreI {
-  readonly bowlersTeamName: string;
-  readonly batsmanTeamName: string;
-  readonly runs: number;
-  readonly wickets: number;
-  readonly balls: number;
-  readonly overs: number;
-  readonly wide: number;
-  readonly noBall: number;
-  readonly legBye: number;
-  readonly bye: number;
-  readonly extras: number;
-  readonly overthrow: number;
-  readonly commentaries: ReadCommentaryI;
-  readonly playerScore: ReadPlayerScoreI;
+  bowlersTeamName: string;
+  batsmanTeamName: string;
+  runs: number;
+  wickets: number;
+  balls: number;
+  overs: number;
+  wide: number;
+  noBall: number;
+  legBye: number;
+  bye: number;
+  extras: number;
+  overthrow: number;
+  commentaries: ReadCommentaryI;
+  playerScore: ReadPlayerScoreI;
 }
 
 export interface ReadCommentaryI {
-  readonly comment: string[];
+  comment: string[];
 }
 
 export interface ReadBowlerScoreI {
-  readonly playerName: string;
-  readonly runs: number;
-  readonly maidens: number;
-  readonly overs: number;
-  readonly playerId: string;
+  playerName: string;
+  runs: number;
+  maidens: number;
+  overs: number;
+  playerId: string;
 }
 
 export interface ReadPlayerScoreI {
-  readonly batsman: ReadBatsmanScoreI[];
-  readonly bowler: ReadBowlerScoreI[];
+  batsman: ReadBatsmanScoreI[];
+  bowler: ReadBowlerScoreI[];
 }
 export interface ReadBatsmanScoreI {
-  readonly playerName: string;
-  readonly runs: number;
-  readonly isOnStrike: boolean;
-  readonly isOnField: boolean;
-  readonly playerId: string;
-}
-
-export interface UpdateTeamScore {
-  bowlersTeamName?: string;
-  batsmanTeamName?: string;
-  runs?: number;
-  wicket?: number;
-  balls?: number;
-  overs?: number;
-  wide?: number;
-  noBall?: number;
-  bye?: number;
-  legBye?: number;
-  overthrow?: number;
-  totalExtras?: number;
-  overCapacity?: number;
-}
-
-export interface UpdatePlayerScore {
-  playerId?: string;
-  runs?: number;
-  playerName?: string;
-  isOnStrike?: boolean;
-  isOnBowling?: boolean;
-  isOnField?: boolean;
-  extras?: number;
-  overs?: number;
-  isBatsman?: boolean;
-  isBowler?: boolean;
-  currentBall?: number;
-  maidens?: number;
-  isOut?: boolean;
+  playerName: string;
+  runs: number;
+  isOnStrike: boolean;
+  isOnField: boolean;
+  playerId: string;
 }
 
 export interface GetPlayerScoreI {
@@ -104,6 +72,24 @@ export interface GetPlayerScoreI {
   currentBall?: number;
   maidens?: number;
   isOut?: boolean;
+}
+
+export interface ExtrasRuns {
+  noBall: number;
+  wide: number;
+  bye: number;
+  legBye: number;
+  overthrow: number;
+}
+
+export interface Team {
+  totalRuns: number;
+  balls: number;
+}
+
+export interface GetCommentaryI {
+  comment: string;
+  createdAt: string;
 }
 
 export interface GetTeamScoreI {
@@ -151,20 +137,34 @@ export interface BatsmanBowler {
   balls: number;
 }
 
-export interface ExtrasRuns {
-  noBall: number;
-  wide: number;
-  bye: number;
-  legBye: number;
-  overthrow: number;
+export interface UpdateTeamScore {
+  bowlersTeamName?: string;
+  batsmanTeamName?: string;
+  runs?: number;
+  wicket?: number;
+  balls?: number;
+  overs?: number;
+  wide?: number;
+  noBall?: number;
+  bye?: number;
+  legBye?: number;
+  overthrow?: number;
+  totalExtras?: number;
+  overCapacity?: number;
 }
 
-export interface Team {
-  totalRuns: number;
-  balls: number;
-}
-
-export interface GetCommentaryI {
-  comment: string;
-  createdAt: string;
+export interface UpdatePlayerScore {
+  playerId?: string;
+  runs?: number;
+  playerName?: string;
+  isOnStrike?: boolean;
+  isOnBowling?: boolean;
+  isOnField?: boolean;
+  extras?: number;
+  overs?: number;
+  isBatsman?: boolean;
+  isBowler?: boolean;
+  currentBall?: number;
+  maidens?: number;
+  isOut?: boolean;
 }
