@@ -194,11 +194,11 @@ export class ScoreService {
       },
       teamsScore._id.toString(),
     );
-    // Update Bowler
+     // Update Bowler
     await this.scoreRepositoryService.updatePlayerScore(
       bowlerScore[0]._id.toString(),
       {
-        runs: runValue + bowlerScore[0].runs,
+        runs: extraRuns.bowler.runs + bowlerScore[0].runs,
         currentBall: extraRuns.bowler.balls + bowlerScore[0].currentBall,
       },
     );
@@ -206,7 +206,7 @@ export class ScoreService {
     await this.scoreRepositoryService.updatePlayerScore(
       batsmanScore[0]._id.toString(),
       {
-        runs: runValue + batsmanScore[0].runs,
+        runs: extraRuns.batsman.runs + batsmanScore[0].runs,
         currentBall: extraRuns.batsman.balls + batsmanScore[0].currentBall,
       },
     );
