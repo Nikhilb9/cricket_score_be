@@ -14,6 +14,12 @@ export enum BallStatus {
   BYE = 'BYE',
   LEG_BYE = 'LEG_BYE',
   OVERTHROW = 'OVERTHROW',
+  //
+  WIDE_RUNS = 'WIDE_RUNS',
+  NO_BALL_BYE_RUNS = 'NO_BALL_BYE_RUNS',
+  NO_BALL_RUNS = 'NO_BALL_RUNS',
+  NO_BALL_LEG_BYE_RUNS = 'NO_BALL_LEG_BYE_RUNS',
+  OVERTHROW_RUNS = 'OVERTHROW_RUNS',
 }
 
 export enum TeamType {

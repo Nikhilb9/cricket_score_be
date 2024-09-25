@@ -194,7 +194,7 @@ export class ScoreService {
       },
       teamsScore._id.toString(),
     );
-     // Update Bowler
+    // Update Bowler
     await this.scoreRepositoryService.updatePlayerScore(
       bowlerScore[0]._id.toString(),
       {
@@ -417,9 +417,40 @@ export class ScoreService {
         matchData.batsman.runs = runs;
         matchData.team.totalRuns = runs;
         matchData.extras.overthrow = runs;
-
         break;
 
+      ////////////
+      case BallStatus.WIDE_RUNS:
+        matchData.bowler.runs = 1;
+        matchData.team.totalRuns = runs;
+        matchData.extras.wide = runs;
+        break;
+      case BallStatus.NO_BALL_BYE_RUNS:
+        matchData.batsman.balls = 1;
+        matchData.bowler.runs = 1;
+        matchData.team.totalRuns = runs;
+        matchData.extras.noBall = 1;
+        matchData.extras.bye = runs - 1;
+        break;
+      case BallStatus.NO_BALL_RUNS:
+        matchData.batsman.balls = 1;
+        matchData.bowler.runs = runs;
+        matchData.batsman.runs = runs - 1;
+        matchData.team.totalRuns = runs;
+        matchData.extras.noBall = 1;
+        break;
+      case BallStatus.NO_BALL_LEG_BYE_RUNS:
+        matchData.batsman.balls = 1;
+        matchData.bowler.runs = 1;
+        matchData.team.totalRuns = runs;
+        matchData.extras.noBall = 1;
+        matchData.extras.legBye = runs - 1;
+        break;
+      case BallStatus.OVERTHROW_RUNS:
+        matchData.batsman.runs = runs;
+        matchData.team.totalRuns = runs;
+        matchData.extras.overthrow = runs;
+        break;
       default:
         console.log('Invalid scenario');
     }
